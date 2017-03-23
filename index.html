@@ -5,11 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>ajax in django</title>
-  <meta name="description" content="Without form in html, we can use ajax to post to django backend.">
+  <title>python learning</title>
+  <meta name="description" content="python is good.
+">
     <link  rel="shortcut icon"  href= '/favicon.ico'>
   <link rel="stylesheet" href="/python-learning/css/main.css">
-  <link rel="canonical" href="http://keepon.today/python-learning/django/2017/03/20/django-ajax.html">
+  <link rel="canonical" href="http://keepon.today/python-learning/">
   <link rel="alternate" type="application/rss+xml" title="python learning" href="http://keepon.today/python-learning/feed.xml">
 </head>
 
@@ -44,33 +45,12 @@
 </header>
 
     <div class="wrapper">
-      <h1>ajax in django</h1>
-<div>tags: ajax,  django  </div>
-<div class="wrapper">
-  <p>Without form in html, we can use <code class="highlighter-rouge">ajax</code> to post to django backend.</p>
-
-<h2 id="about-crosssiterequestforgery">about <code class="highlighter-rouge">CrossSiteRequestForgery</code></h2>
-<p>You are logged in a site called SiteA, and SiteA store the sessionid the the cookie under its domain, so you won’t check for credentials at server side for every request.</p>
-
-<p>Now you are visiting SiteB, and there is a trap form that send a request to SiteA like <code class="highlighter-rouge">&lt;form action="https://sitea.com/delete/something/" method="POST"&gt;</code>, when you click the submit button, a request to SiteA will be sent from SiteB! And worse, the cookie with the sessionid will be sent together since it is <code class="highlighter-rouge">httponly</code>, then the request seems like sent by yourself even you did not realized. By this way, attackers can do something bad without getting your credentials.</p>
-
-<p>The solution is provide another cookie, and check every post request with that cookie. If there is no cookie in the request, then it is not allowed to access the endpoint. And since the cookie can be added in the header in a request, you also need to add another form data with the value of <code class="highlighter-rouge">csrftoken</code>, and in the server side, check the token in the post request and in the cookie, if they are not equal, then</p>
-
-<h2 id="add-ensure_csrf_token">add @ensure_csrf_token</h2>
-
-<p>Add decorator <code class="highlighter-rouge">@ensure_csrf_token</code> to the view if there is not form in the html to ensure there is csrftoken in sent.</p>
-
-<h2 id="add-csrf_protect-to-the-view">add @csrf_protect to the view</h2>
-
-<p>Add <code class="highlighter-rouge">@csrf_protect</code> to the view you posted to.</p>
-
-<h2 id="client-side">client side</h2>
-
-<p>At client side, you should send ajax request with <code class="highlighter-rouge">credentials</code> set to <code class="highlighter-rouge">same-origin</code>, that will send request with cookies.</p>
-
-<p>The <code class="highlighter-rouge">CSRFViewMiddleware</code> rely on the cookie to validate the csrftoken. It compare the csrftoken in the cookie and</p>
-
-</div>
+      <script>
+  document.onreadystatechange = function(){
+  document.onreadystatechange = undefined
+  window.location = http://keepon.today/python-learning/python
+}
+  </script>
 
       </div>
     <footer class="site-footer">
