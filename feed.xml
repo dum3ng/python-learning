@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator><link href="http://keepon.today/python-learning/feed.xml" rel="self" type="application/atom+xml" /><link href="http://keepon.today/python-learning/" rel="alternate" type="text/html" /><updated>2017-03-23T15:29:22+08:00</updated><id>http://keepon.today/python-learning/</id><title type="html">python learning</title><subtitle>python is good.
+</subtitle><entry><title type="html">i18n in django</title><link href="http://keepon.today/python-learning/django/2017/03/20/django-i18n.html" rel="alternate" type="text/html" title="i18n in django" /><published>2017-03-20T00:00:00+08:00</published><updated>2017-03-20T00:00:00+08:00</updated><id>http://keepon.today/python-learning/django/2017/03/20/django-i18n</id><content type="html" xml:base="http://keepon.today/python-learning/django/2017/03/20/django-i18n.html">&lt;h2 id=&quot;i18n&quot;&gt;i18n&lt;/h2&gt;
+&lt;p&gt;thi is translation in django.&lt;/p&gt;
+
+&lt;h3 id=&quot;djangojs&quot;&gt;djangojs&lt;/h3&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//code in fence&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;some&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name></name></author><category term="i18n," /><category term="django" /><summary type="html">i18n thi is translation in django.</summary></entry><entry><title type="html">ajax in django</title><link href="http://keepon.today/python-learning/django/2017/03/20/django-ajax.html" rel="alternate" type="text/html" title="ajax in django" /><published>2017-03-20T00:00:00+08:00</published><updated>2017-03-20T00:00:00+08:00</updated><id>http://keepon.today/python-learning/django/2017/03/20/django-ajax</id><content type="html" xml:base="http://keepon.today/python-learning/django/2017/03/20/django-ajax.html">&lt;p&gt;Without form in html, we can use &lt;code class=&quot;highlighter-rouge&quot;&gt;ajax&lt;/code&gt; to post to django backend.&lt;/p&gt;
+
+&lt;h2 id=&quot;about-crosssiterequestforgery&quot;&gt;about &lt;code class=&quot;highlighter-rouge&quot;&gt;CrossSiteRequestForgery&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;You are logged in a site called SiteA, and SiteA store the sessionid the the cookie under its domain, so you won’t check for credentials at server side for every request.&lt;/p&gt;
+
+&lt;p&gt;Now you are visiting SiteB, and there is a trap form that send a request to SiteA like &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;form action=&quot;https://sitea.com/delete/something/&quot; method=&quot;POST&quot;&amp;gt;&lt;/code&gt;, when you click the submit button, a request to SiteA will be sent from SiteB! And worse, the cookie with the sessionid will be sent together since it is &lt;code class=&quot;highlighter-rouge&quot;&gt;httponly&lt;/code&gt;, then the request seems like sent by yourself even you did not realized. By this way, attackers can do something bad without getting your credentials.&lt;/p&gt;
+
+&lt;p&gt;The solution is provide another cookie, and check every post request with that cookie. If there is no cookie in the request, then it is not allowed to access the endpoint. And since the cookie can be added in the header in a request, you also need to add another form data with the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;csrftoken&lt;/code&gt;, and in the server side, check the token in the post request and in the cookie, if they are not equal, then&lt;/p&gt;
+
+&lt;h2 id=&quot;add-ensure_csrf_token&quot;&gt;add @ensure_csrf_token&lt;/h2&gt;
+
+&lt;p&gt;Add decorator &lt;code class=&quot;highlighter-rouge&quot;&gt;@ensure_csrf_token&lt;/code&gt; to the view if there is not form in the html to ensure there is csrftoken in sent.&lt;/p&gt;
+
+&lt;h2 id=&quot;add-csrf_protect-to-the-view&quot;&gt;add @csrf_protect to the view&lt;/h2&gt;
+
+&lt;p&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;@csrf_protect&lt;/code&gt; to the view you posted to.&lt;/p&gt;
+
+&lt;h2 id=&quot;client-side&quot;&gt;client side&lt;/h2&gt;
+
+&lt;p&gt;At client side, you should send ajax request with &lt;code class=&quot;highlighter-rouge&quot;&gt;credentials&lt;/code&gt; set to &lt;code class=&quot;highlighter-rouge&quot;&gt;same-origin&lt;/code&gt;, that will send request with cookies.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;CSRFViewMiddleware&lt;/code&gt; rely on the cookie to validate the csrftoken. It compare the csrftoken in the cookie and&lt;/p&gt;</content><author><name></name></author><category term="ajax," /><category term="django" /><summary type="html">Without form in html, we can use ajax to post to django backend.</summary></entry></feed>

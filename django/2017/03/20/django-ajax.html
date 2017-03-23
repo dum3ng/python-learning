@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+      <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>ajax in django</title>
+  <meta name="description" content="Without form in html, we can use ajax to post to django backend.">
+    <link  rel="shortcut icon"  href= '/favicon.ico'>
+  <link rel="stylesheet" href="/python-learning/css/main.css">
+  <link rel="canonical" href="http://keepon.today/python-learning/django/2017/03/20/django-ajax.html">
+  <link rel="alternate" type="application/rss+xml" title="python learning" href="http://keepon.today/python-learning/feed.xml">
+</head>
+
+  <body>
+    <header>
+  <div class="header">
+    <div class="brand"><a href="/python-learning/">
+    python learning</a></div>
+  </div>
+  <div class="cats">
+    <div class="wrapper">
+      <ul>
+        <li><a href="http://keepon.today">Home</a></li>
+        
+        
+        <li><a href="/python-learning/django.html">django</a></li>
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div class="wrapper">
+      <h1>ajax in django</h1>
+<div>tags: ajax,  django  </div>
+<div class="wrapper">
+  <p>Without form in html, we can use <code class="highlighter-rouge">ajax</code> to post to django backend.</p>
+
+<h2 id="about-crosssiterequestforgery">about <code class="highlighter-rouge">CrossSiteRequestForgery</code></h2>
+<p>You are logged in a site called SiteA, and SiteA store the sessionid the the cookie under its domain, so you won’t check for credentials at server side for every request.</p>
+
+<p>Now you are visiting SiteB, and there is a trap form that send a request to SiteA like <code class="highlighter-rouge">&lt;form action="https://sitea.com/delete/something/" method="POST"&gt;</code>, when you click the submit button, a request to SiteA will be sent from SiteB! And worse, the cookie with the sessionid will be sent together since it is <code class="highlighter-rouge">httponly</code>, then the request seems like sent by yourself even you did not realized. By this way, attackers can do something bad without getting your credentials.</p>
+
+<p>The solution is provide another cookie, and check every post request with that cookie. If there is no cookie in the request, then it is not allowed to access the endpoint. And since the cookie can be added in the header in a request, you also need to add another form data with the value of <code class="highlighter-rouge">csrftoken</code>, and in the server side, check the token in the post request and in the cookie, if they are not equal, then</p>
+
+<h2 id="add-ensure_csrf_token">add @ensure_csrf_token</h2>
+
+<p>Add decorator <code class="highlighter-rouge">@ensure_csrf_token</code> to the view if there is not form in the html to ensure there is csrftoken in sent.</p>
+
+<h2 id="add-csrf_protect-to-the-view">add @csrf_protect to the view</h2>
+
+<p>Add <code class="highlighter-rouge">@csrf_protect</code> to the view you posted to.</p>
+
+<h2 id="client-side">client side</h2>
+
+<p>At client side, you should send ajax request with <code class="highlighter-rouge">credentials</code> set to <code class="highlighter-rouge">same-origin</code>, that will send request with cookies.</p>
+
+<p>The <code class="highlighter-rouge">CSRFViewMiddleware</code> rely on the cookie to validate the csrftoken. It compare the csrftoken in the cookie and</p>
+
+</div>
+
+      </div>
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">python learning</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>python learning</li>
+          <li><a href="mailto:dumeng81@outlook.com">dumeng81@outlook.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/dum3ng"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">dum3ng</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>python is good.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+</html>
